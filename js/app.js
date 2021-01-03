@@ -25,7 +25,7 @@ const createElement = todo => {
 
     const $inputNode = document.createElement('input');
     $inputNode.classList.add('checkbox');
-    $input.setAttribute('type', 'checkbox');
+    $inputNode.setAttribute('type', 'checkbox');
     $inputNode.id = `ck-${todo.id}`;
     if (todo.completed) $inputNode.setAttribute('checked', '');
 
@@ -46,7 +46,6 @@ const createElement = todo => {
     return $liNode;
 }
 
-createElement({ id: 1, content: 'HTML', completed: true });
 
 //render
 const render = givenTodos => {
@@ -66,8 +65,12 @@ const render = givenTodos => {
     }
 
     // console.log(completedAllButton.firstElementChild.checked = false);
+    console.log(isAllCompletedTrue());
+    console.log(isAllCompletedFalse());
+    // check if all todo's completed are true
+    if(todos.length > 0 && isAllCompletedTrue()) completedAllButton.firstElementChild.checked = true;
     //check if all todo's completed are false or no data in the $todoList. 
-    if (todos.length === 0 || checkCompleted()) completedAllButton.firstElementChild.checked = false;
+    if (todos.length === 0 || isAllCompletedFalse()) completedAllButton.firstElementChild.checked = false;
 
     //show completed and active todos
     const numOfCompleted = todos.filter(todo => todo.completed).length;
@@ -82,9 +85,14 @@ document.addEventListener('DOMContentLoaded', fetchData);
 
 
 
+//check All Completed are false
+const isAllCompletedFalse = () => {
+    return todos.some(todo => todo.completed === false)
+}
+
 //check All Completed are true
-const checkCompleted = () => {
-    return todos.every(todo => todo.completed === false)
+const isAllCompletedTrue = () => {
+    return todos.every(todo => todo.completed === true)
 }
 
 //show only active todos
